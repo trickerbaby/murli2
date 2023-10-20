@@ -91,7 +91,7 @@ app.get('/sendmessage',async (req,res)=>{
         messages: [
           {
             role: 'user',
-            content: `Acting as lord krishna,Give a solution to this problem ${msg} give references on basis of bhagwat geeta incidents,give output in form of a letter,And my name is ${name},Please reply in simple ${lang} language , do not use hard to understand words`,
+            content: `Acting as lord krishna,Give a solution to this problem ${msg} give references on basis of bhagwat geeta incidents,give output in form of a letter,And my name is ${name},Please reply in simple ${lang} language , do not use hard to understand words,reply in 200 words to this quary`,
           },
         ],
       });
