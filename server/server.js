@@ -63,10 +63,7 @@ app.get('/sendmessage',async (req,res)=>{
         const col = db.collection("users");
        const user = await col.findOne({username});
 
-       if(user==null)
-       {
-        return res.json({letter:"Username not registered!,Please contact Developer Naman Sharma"});
-       }
+      
        
        console.log(user);
        var count = user.credits;
@@ -91,7 +88,7 @@ app.get('/sendmessage',async (req,res)=>{
         messages: [
           {
             role: 'user',
-            content: `Acting as lord krishna,Give a solution to this problem ${msg} give references on basis of bhagwat geeta incidents,give output in form of a letter,And my name is ${name},Please reply in simple ${lang} language , do not use hard to understand words,reply in 200 words to this quary`,
+            content: `Acting as lord krishna,Give a solution to this problem ${msg} give references on basis of bhagwat geeta incidents,give output in form of a letter,And my name is ${username},Please reply in simple ${lang} language , do not use hard to understand words,reply in 200 words to this quary`,
           },
         ],
       });
