@@ -74,10 +74,8 @@ app.get('/sendmessage',async (req,res)=>{
       run();
 
       console.log("AI request processed");
-      
+
       console.log(username+":"+msg);
-      console.log(username+":"+letter);
-      res.json({letter});
 
 })
 
