@@ -4,7 +4,8 @@ const OpenAI = require('openai'); // Import OpenAI modules
 const {MongoClient,ServerApiVersion} = require('mongodb');
 const cors = require('cors');
 require('dotenv').config();
-
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const genAI = new GoogleGenerativeAI("AIzaSyAdFldcZj3W1J8ufGHRpeBccpaAa-OXgB0");
 const app = express();
 
 
@@ -56,49 +57,26 @@ app.get('/sendmessage',async (req,res)=>{
     const username = req.query.username;
     const lang = req.query.language;
 
-    try
-    {
-        await client.connect();
-        const db = client.db('murli');
-        const col = db.collection("users");
-       const user = await col.findOne({username});
+     const genAI = new GoogleGenerativeAI("AIzaSyAdFldcZj3W1J8ufGHRpeBccpaAa-OXgB0");
 
+      async function run() {
+        // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
       
-       
-       console.log(user);
-       var count = user.credits;
-       if(count==0)
-       {
-        return res.json({letter:"credits expired please buy new plan!"});
-       }
-       
-       count--;
-       console.log(count)
-       await col.updateOne({username},{$set:{credits: count.toString()}});
-       var name = user.name;
+        const prompt = `Acting as lord krishna,Give a solution to this problem ${msg} give references on basis of bhagwat geeta incidents,give output in form of a letter,And my name is ${username},Please reply in simple ${lang} language , do not use hard to understand words,reply in 300 words to this quary`
+      
+        const result = await model.generateContent(prompt); 
+        const response = await result.response;
+        const text = response.text();
+        res.json({letter:text});
+      }
 
-    }
-    catch(err)
-    {
-        console.log(err);
-    }
-
-    const completion = await openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
-        messages: [
-          {
-            role: 'user',
-            content: `Acting as lord krishna,Give a solution to this problem ${msg} give references on basis of bhagwat geeta incidents,give output in form of a letter,And my name is ${username},Please reply in simple ${lang} language , do not use hard to understand words,reply in 300 words to this quary`,
-          },
-        ],
-      });
+      run();
 
       console.log("AI request processed");
       
-      var letter = completion.choices[0].message.content;
       console.log(username+":"+msg);
       console.log(username+":"+letter);
-      if(count!=0)
       res.json({letter});
 
 })
