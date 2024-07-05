@@ -57,7 +57,7 @@ app.get('/sendmessage',async (req,res)=>{
     const username = req.query.username;
     const lang = req.query.language;
 
-     const genAI = new GoogleGenerativeAI("AIzaSyAdFldcZj3W1J8ufGHRpeBccpaAa-OXgB0");
+     const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 
       async function run() {
         // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
