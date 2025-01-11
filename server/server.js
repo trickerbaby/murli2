@@ -5,7 +5,6 @@ const {MongoClient,ServerApiVersion} = require('mongodb');
 const cors = require('cors');
 require('dotenv').config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI("AIzaSyAdFldcZj3W1J8ufGHRpeBccpaAa-OXgB0");
 const app = express();
 
 
@@ -58,7 +57,7 @@ app.get('/sendmessage',async (req,res)=>{
     const lang = req.query.language;
 
      const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
-
+      console.log(process.env.GEMINI_KEY);
       async function run() {
         // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
